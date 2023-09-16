@@ -75,7 +75,8 @@ const Form = () => {
           validator: validarPassword,
         },
       ],
-      buttonText: "Siguiente",
+      buttonText_Next: "Siguiente",
+      buttonText: "Atras",
       onSubmit,
     },
     1: {
@@ -108,7 +109,8 @@ const Form = () => {
           validator: validarTelefono,
         },
       ],
-      buttonText: "Siguiente",
+      buttonText_Next: "Siguiente",
+      buttonTextBack: "Atras",
       onSubmit,
     },
     2: {

@@ -64,6 +64,9 @@ const DatosUsuario = ({ updateStep }) => {
           setPassword({ value: password, valid: validarPassword(password) });
         }}
       />
+      <Button variant="contained" onClick={() => updateStep(0)} disabled>
+        Atras
+      </Button>
       <Button variant="contained" type="submit">
         Siguiente
       </Button>
