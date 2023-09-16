@@ -1,12 +1,13 @@
-import React, { useState, useContext } from "react";
+// para usar el contexto que se elimino por mera estetica, hay que importar useState y useEffect
+import React from "react";
 import { TextField, Button, Box } from "@mui/material";
-import { CounterContext } from "../../Context";
+// import { CounterContext } from "../../Context";
 import useAuth from "../../Hooks/useAuth";
 
 const Step = ({ data, step, pasos }) => {
   const { inputs, buttonText, onSubmit } = data;
 
-  const counterData = useContext(CounterContext);
+  // const counterData = useContext(CounterContext);
 
   const access = useAuth("counterData.user.jwt");
   console.log(access);
@@ -23,7 +24,7 @@ const Step = ({ data, step, pasos }) => {
       }}
       onSubmit={(e) => onSubmit(e, step, pasos)}
     >
-      <strong>El valor del contador es: {counterData.count}</strong>
+      {/* <strong>El valor del contador es: {counterData.count}</strong> */}
       {inputs.map((input, i) => {
         const { label, type, value, valid, onChange, helperText, validator } =
           input;
