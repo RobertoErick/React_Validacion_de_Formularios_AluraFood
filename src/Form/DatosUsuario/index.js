@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarEmail, validarPassword } from "./validaciones";
+import Swal from "sweetalert2";
 
 const DatosUsuario = ({ updateStep }) => {
   const [email, setEmail] = useState({
@@ -26,7 +27,11 @@ const DatosUsuario = ({ updateStep }) => {
           console.log(email, password);
           updateStep(1);
         } else {
-          console.log("No hacer nada");
+          Swal.fire(
+            'Falta información',
+            'No ah rellenado correctamente los datos, favor de llenarlos',
+            'info'
+          )
         }
       }}
     >
@@ -64,9 +69,6 @@ const DatosUsuario = ({ updateStep }) => {
           setPassword({ value: password, valid: validarPassword(password) });
         }}
       />
-      <Button variant="contained" onClick={() => updateStep(0)} disabled>
-        Atras
-      </Button>
       <Button variant="contained" type="submit">
         Siguiente
       </Button>

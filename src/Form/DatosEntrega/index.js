@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarInput } from "./validaciones";
+import Swal from "sweetalert2";
 
 const DatosEntrega = ({ updateStep }) => {
   const [address, setAddress] = useState({ value: "", valid: null });
@@ -19,8 +20,17 @@ const DatosEntrega = ({ updateStep }) => {
       }}
       onSubmit={(e) => {
         e.preventDefault();
-        updateStep(3);
-        console.log(address, city, province);
+        if(address.valid && city.valid && province.valid){
+          updateStep(3);
+          console.log(address, city, province);
+        } else {
+          Swal.fire(
+            'Falta información',
+            'No has rellenado correctamente los datos, por favor llénalos.',
+            'info'
+          )
+        }
+        
       }}
     >
       <TextField
@@ -70,9 +80,16 @@ const DatosEntrega = ({ updateStep }) => {
           province.valid === false && "Ingresa al menos 4 caracteres."
         }
       />
-      <Button variant="contained" type="submit">
-        Crear cuenta
-      </Button>
+      <div>
+        <Button variant="contained" onClick={() => updateStep(1)}
+          sx={{ marginRight: '8px', display: 'inline-flex' }}>
+            Atras
+        </Button>
+        <Button variant="contained" type="submit" 
+          sx={{display: 'inline-flex' }}>
+            Crear Cuenta
+        </Button>
+      </div>
     </Box>
   );
 };

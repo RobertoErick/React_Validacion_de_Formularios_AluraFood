@@ -5,6 +5,7 @@ import {
   validarApellidos,
   validarTelefono,
 } from "./validaciones";
+import Swal from 'sweetalert2'
 
 const DatosPersonales = ({ updateStep }) => {
   const [name, setName] = useState({ value: "", valid: null });
@@ -23,7 +24,15 @@ const DatosPersonales = ({ updateStep }) => {
       }}
       onSubmit={(e) => {
         e.preventDefault();
-        updateStep(2);
+        if(name.valid && lastName.valid && phone.valid){
+          updateStep(2);
+        } else {
+          Swal.fire(
+            'Falta información',
+            'No has rellenado correctamente los datos, por favor llénalos.',
+            'info'
+          )
+        }
       }}
     >
       <TextField
@@ -84,9 +93,16 @@ const DatosPersonales = ({ updateStep }) => {
           "Ingresa al menos 8 digitos y máximo 14 digitos."
         }
       />
-      <Button variant="contained" type="submit">
-        Siguiente
-      </Button>
+      <div>
+        <Button variant="contained" onClick={() => updateStep(0)}
+          sx={{ marginRight: '8px', display: 'inline-flex' }}>
+            Atras
+        </Button>
+        <Button variant="contained" type="submit" 
+          sx={{display: 'inline-flex' }}>
+            Siguiente
+        </Button>
+      </div>
     </Box>
   );
 };
