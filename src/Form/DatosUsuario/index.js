@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarEmail, validarPassword } from "./validaciones";
 import Swal from "sweetalert2";
 
 const DatosUsuario = ({ updateStep }) => {
   const [email, setEmail] = useState({
-    value: "",
+    value: localStorage.getItem('email') || "",
     valid: null,
   });
-  const [password, setPassword] = useState({ value: "", valid: null });
+  const [password, setPassword] = useState({ 
+    value: localStorage.getItem(`password`) || "", 
+    valid: null 
+  });
+
+  useEffect(() => {
+    setEmail((prevEmail) => ({
+      ...prevEmail,
+      valid: validarEmail(prevEmail.value),
+    }));
+    setPassword((prevPassword) => ({
+      ...prevPassword,
+      valid: validarPassword(prevPassword.value),
+    }));
+  }, []);
 
   return (
     <Box
@@ -24,7 +38,8 @@ const DatosUsuario = ({ updateStep }) => {
         e.preventDefault();
         if (email.valid && password.valid) {
           console.log("Siguiente formulario");
-          console.log(email, password);
+          localStorage.setItem('email', email.value);
+          localStorage.setItem('password', password.value);
           updateStep(1);
         } else {
           Swal.fire(

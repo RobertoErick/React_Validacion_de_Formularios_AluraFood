@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { LogoSpace, FormSpace, Img } from "./styles";
 import DatosUsuario from "./DatosUsuario";
@@ -8,18 +8,23 @@ import Complete from "./Complete";
 import Stepper from "../Stepper";
 
 const Form = () => {
-  const [step, setStep] = useState(0);
+  const initialStep = localStorage.getItem('step') ? parseInt(localStorage.getItem('step')) : 0;
+  const [step, setStep] = useState(initialStep);
 
-  const updateStep = (step) => {
-    console.log("actualizar paso", step);
-    setStep(step);
+  const updateStep = (newStep) => {
+    console.log("actualizar paso", newStep);
+    setStep(newStep);
   };
+
+  useEffect(() => {
+    localStorage.setItem('step', step.toString());
+  }, [step]);
 
   const steps = {
     0: <DatosUsuario updateStep={updateStep} />,
     1: <DatosPersonales updateStep={updateStep} />,
     2: <DatosEntrega updateStep={updateStep} />,
-    3: <Complete />,
+    3: <Complete updateStep={updateStep}/>,
   };
 
   return (

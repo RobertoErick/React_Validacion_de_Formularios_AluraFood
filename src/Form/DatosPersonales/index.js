@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import {
   validarNombre,
@@ -8,9 +8,33 @@ import {
 import Swal from 'sweetalert2'
 
 const DatosPersonales = ({ updateStep }) => {
-  const [name, setName] = useState({ value: "", valid: null });
-  const [lastName, setLastName] = useState({ value: "", valid: null });
-  const [phone, setPhone] = useState({ value: "", valid: null });
+  const [name, setName] = useState({ 
+    value: localStorage.getItem(`nombre`) || "", 
+    valid: null 
+  });
+  const [lastName, setLastName] = useState({
+    value: localStorage.getItem(`apellido`) || "", 
+    valid: null 
+  });
+  const [phone, setPhone] = useState({ 
+    value: localStorage.getItem(`telefono`) || "", 
+    valid: null 
+  });
+
+  useEffect(() => {
+    setName((prevName) => ({
+      ...prevName,
+      valid: validarNombre(prevName.value),
+    }));
+    setLastName((prevLastName) => ({
+      ...prevLastName,
+      valid: validarApellidos(prevLastName.value),
+    }));
+    setPhone((prevPhone) => ({
+      ...prevPhone,
+      valid: validarTelefono(prevPhone.value),
+    }));
+  }, []);
 
   return (
     <Box
@@ -25,6 +49,9 @@ const DatosPersonales = ({ updateStep }) => {
       onSubmit={(e) => {
         e.preventDefault();
         if(name.valid && lastName.valid && phone.valid){
+          localStorage.setItem(`nombre`, name.value);
+          localStorage.setItem(`apellido`, lastName.value);
+          localStorage.setItem(`telefono`, phone.value);
           updateStep(2);
         } else {
           Swal.fire(

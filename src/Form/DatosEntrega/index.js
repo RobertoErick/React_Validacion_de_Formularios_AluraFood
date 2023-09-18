@@ -1,12 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { validarInput } from "./validaciones";
 import Swal from "sweetalert2";
 
 const DatosEntrega = ({ updateStep }) => {
-  const [address, setAddress] = useState({ value: "", valid: null });
-  const [city, setCity] = useState({ value: "", valid: null });
-  const [province, setProvince] = useState({ value: "", valid: null });
+  const [address, setAddress] = useState({ 
+    value: localStorage.getItem(`direccion`) || "", 
+    valid: null 
+  });
+  const [city, setCity] = useState({ 
+    value: localStorage.getItem(`ciudad`) || "", 
+    valid: null 
+  });
+  const [province, setProvince] = useState({ 
+    value: localStorage.getItem(`provincia`) || "", 
+    valid: null 
+  });
+
+  useEffect(() => {
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      valid: validarInput(prevAddress.value),
+    }));
+    setCity((prevCity) => ({
+      ...prevCity,
+      valid: validarInput(prevCity.value),
+    }));
+    setProvince((prevProvince) => ({
+      ...prevProvince,
+      valid: validarInput(prevProvince.value),
+    }));
+  }, []);
 
   return (
     <Box
@@ -21,6 +45,9 @@ const DatosEntrega = ({ updateStep }) => {
       onSubmit={(e) => {
         e.preventDefault();
         if(address.valid && city.valid && province.valid){
+          localStorage.setItem(`direccion`, address.value);
+          localStorage.setItem(`ciudad`, city.value);
+          localStorage.setItem(`provincia`, province.value);
           updateStep(3);
           console.log(address, city, province);
         } else {

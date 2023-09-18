@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Box, Typography } from "@mui/material";
+import { Box,Button, Typography } from "@mui/material";
 
 const Img = styled.img`
   width: 70%;
 `;
 
-const Complete = () => {
+const Complete = ({ updateStep }) => {
   return (
     <Box
       sx={{
@@ -18,6 +18,12 @@ const Complete = () => {
     >
       <Typography variant="h4">!Gracias por tu registro¡</Typography>
       <Img src="/complete.png" />
+      <div>
+      <Button variant="contained" onClick={() => updateStep(0)}
+          sx={{ marginRight: '8px', display: 'inline-flex' }}>
+            Regresar
+      </Button>
+      </div>
     </Box>
   );
 };
